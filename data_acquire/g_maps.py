@@ -5,10 +5,9 @@ import math
 import requests
 from data_acquire.geo_structures import BoundingBox
 
-# Specifies the size of the map (in pixels).
+from data_acquire.gstatic_api_key import GM_STATIC_API_KEY
+
 TILE_SIZE = 256
-# This is the Maps API key for running on localhost:8080
-GM_STATIC_API_KEY = 'AIzaSyCNfHEobjXhaLIIIlLzkTr_0uhXdmwBOKc'
 
 
 def radec2latlon(radec):

@@ -1,0 +1,1 @@
+GM_STATIC_API_KEY = 'AIzaSyCNfHEobjXhaLIIIlLzkTr_0uhXdmwBOKc'
