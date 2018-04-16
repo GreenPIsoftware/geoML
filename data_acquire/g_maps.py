@@ -190,7 +190,7 @@ def download_satellite_image(bounding_box, path=""):
     if response.status_code != 200:
         raise Exception("server returned status: " + response.status_code)
 
-    with open(path + str(bounding_box.center) + ".png", 'wb') as f:
+    with open(path, 'wb') as f:
         shutil.copyfileobj(response.raw, f)
 
 

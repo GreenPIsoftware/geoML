@@ -16,12 +16,12 @@ def download_heightmap(box, name):
 
     params = (
         ('box', box.min.str_lon_lat() + "," + box.max.str_lon_lat()),
-        ('name', name),
+        ('name', str(box.center)),
     )
 
     response = requests.get('http://terrain.party/api/export', headers=headers, params=params, stream=True)
     if response.status_code == 200:
-        with open(name + ".zip", 'wb') as f:
+        with open(name, 'wb') as f:
             shutil.copyfileobj(response.raw, f)
     else:
         raise Exception("server responded with: " + str(response.status_code))
