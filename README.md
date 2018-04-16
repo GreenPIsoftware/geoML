@@ -1,0 +1,3 @@
+# geoML
+The goal of this project is to generate a fictional satellite image to a given heightmap uing a convolutional autoencoder.
+As of now I can't really test stuff since my CPU is too bad...
