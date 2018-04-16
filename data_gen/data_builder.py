@@ -7,7 +7,10 @@ import os
 import zipfile
 from shutil import copyfile
 import random
-
+import numpy as np
+from keras.preprocessing.image import load_img, img_to_array
+from keras import backend as K
+from PIL import Image
 
 def get_random_locations(count, bounds, seed=7):
     random.seed(seed)
@@ -56,9 +59,44 @@ def download_location(loc, path="./",overwrite=False):
 
     download_satellite_image(bounds, SATELLITE_IMG)
 
+def load_training_data(target_size, root_path="./data"):
+
+    x = []
+    y = []
+
+    table = [i / 256 for i in range(65536)]
+
+    for data_folder in os.listdir(root_path):
+        temp_path = os.path.join(root_path, data_folder)
+        satellite_path = os.path.join(temp_path, "satellite.png")
+        heightmap_path = os.path.join(temp_path, "heightmap.png")
+
+        if not os.path.exists(satellite_path) or not os.path.exists(heightmap_path):
+            continue
+
+        satellite_image = Image.open(heightmap_path)
+        satellite_image = satellite_image.point(table, 'L')
+        satellite_image = satellite_image.resize(target_size, Image.ANTIALIAS)
+
+        x.append(
+            np.asarray(
+                satellite_image,
+                dtype=K.floatx()
+            )
+        )
+        y.append(
+            np.asarray(
+                load_img(satellite_path,
+                         grayscale=True, target_size=target_size, interpolation='bilinear'),
+                dtype=K.floatx()
+            )
+        )
+
+    return np.array(x), np.array(y)
+
+
 if __name__ == '__main__':
 
     for location in get_random_locations(5000, BoundingBox(47.040469, 7.952049, 500)):
         print(str(location))
-        sleep(1) # iäü
         download_location(location, './data')
